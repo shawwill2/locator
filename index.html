@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <title>Locator - Find Your Location</title>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDpRiEB8nfTckN30OjnzWllkKldDcfRDA&callback=initMap">
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDpRiEB8nfTckN30OjnzWllkKldDcfRDA&libraries=drawing&callback=initMap" async defer>
 </script>
 <script type="text/javascript">
 function showPosition(){
@@ -29,6 +29,25 @@ function showMap(position){
     
     var map = new google.maps.Map(document.getElementById("embedMap"), myOptions);
     var marker = new google.maps.Marker({position:latlong, map:map, title:"You are here!"});
+    
+    var drawingManager = new google.maps.drawing.DrawingManager({
+          drawingMode: google.maps.drawing.OverlayType.MARKER,
+          drawingControl: true,
+          drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_CENTER,
+            drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
+          },
+          markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
+          circleOptions: {
+            fillColor: '#ffff00',
+            fillOpacity: 1,
+            strokeWeight: 5,
+            clickable: false,
+            editable: true,
+            zIndex: 1
+          }
+        });
+        drawingManager.setMap(map);
 }
  
 // Define callback function for failed attempt
